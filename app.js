@@ -63,8 +63,11 @@ router.put("/songs/:id", async (req, res) => {
 router.delete("/songs/:id", async (req, res) => {
     try {
         Song.deleteOne({_id: req.params.id})
+        .then(result => {
+            res.status(200).json(result)
+        })
     } catch (err) {
-        res.status(400).send(err)
+        res.status(500).send(err)
     }
 })
 
