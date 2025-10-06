@@ -4,9 +4,34 @@ const express = require("express")
 var cors = require("cors")
 // activate variable to be express server
 const app = express()
-app.use(cors())
 const router = express.Router()
+const bodyParser = require("body-parser")
+const Song = require("./models/songs")
+app.use(cors())
 
+app.use(bodyParser.json())
+
+//grab all songs in database
+router.get("/songs", async(req, res) =>{
+    try {
+        const songs = await Song.find({})
+        res.send(songs)
+        console.log(songs)
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+router.post("/songs", async(req,res) =>{
+    try {
+        const song = await new Song(req.body)
+        await song.save()
+        res.status(201).json(song)
+        console.log(song)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
 
 //start web server app.listen(portnumber,function)
 // app.listen(3000, function(){
