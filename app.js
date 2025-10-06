@@ -66,6 +66,7 @@ router.delete("/songs/:id", async (req, res) => {
         .then(result => {
             res.status(200).json(result)
         })
+        res.redirect("/songs")
     } catch (err) {
         res.status(500).send(err)
     }
